@@ -1,8 +1,7 @@
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import {
-  reset, themes, List, ListItem, Divider,
-} from 'react95';
+import { reset, themes } from 'react95';
+import System from './views/System';
 
 import './App.css';
 
@@ -16,12 +15,7 @@ function App() {
     <div className="App">
       <ResetStyles />
       <ThemeProvider theme={themes.default}>
-        <List>
-          <ListItem>Sing</ListItem>
-          <ListItem>Dance</ListItem>
-          <Divider />
-          <ListItem disabled>Sleep</ListItem>
-        </List>
+        <System />
       </ThemeProvider>
     </div>
   );

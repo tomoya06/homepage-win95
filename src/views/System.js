@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Bar } from 'react95';
+import PropTypes from 'prop-types';
 
-export default class System extends Component {
+import SystemBar from '../layouts/SystemBar';
+
+import '../styles/System.less';
+
+class System extends Component {
   constructor(props) {
     super(props);
 
@@ -10,16 +14,23 @@ export default class System extends Component {
     };
   }
 
-
   render() {
     const { children } = this.props;
     return (
-      <div>
-        <div>
+      <div className="system-view">
+        <div className="desktop">
           {children}
         </div>
-        <Bar />
+        <div className="dock">
+          <SystemBar />
+        </div>
       </div>
     );
   }
 }
+
+System.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default System;
