@@ -3,6 +3,7 @@ import {
   Window, WindowHeader, WindowContent,
   Button,
 } from 'react95';
+import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
 import SystemStore from '../stores/System';
 
@@ -26,30 +27,53 @@ class WindowFrame extends React.Component {
   getParentClassName = () => this._reactInternalFiber._debugOwner.type.name
 
   render() {
-    const { header, content } = this.props;
+    const {
+      header, content, width, height, enableResizing,
+    } = this.props;
     return (
-      <Window>
-        <WindowHeader
+      <Rnd
+        default={{
+          x: 0,
+          y: 0,
+          width,
+          height,
+        }}
+        dragHandleClassName="header"
+        enableResizing={enableResizing}
+      >
+        <Window
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            width: '100%',
+            height: '100%',
           }}
         >
-          {header}
-          <Button
-            onClick={this.handleCloseApp}
-            style={{ marginRight: '-6px', marginTop: '1px' }}
-            size="sm"
-            square
+          <WindowHeader
+            className="header"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
           >
-            <span style={{ fontWeight: 'bold', transform: 'translateY(-1px)' }}>X</span>
-          </Button>
-        </WindowHeader>
-        <WindowContent>
-          {content}
-        </WindowContent>
-      </Window>
+            {header}
+            <Button
+              onClick={this.handleCloseApp}
+              style={{ marginRight: '-6px', marginTop: '1px' }}
+              size="sm"
+              square
+            >
+              <span style={{ fontWeight: 'bold', transform: 'translateY(-1px)' }}>X</span>
+            </Button>
+          </WindowHeader>
+          <WindowContent
+            style={{
+              overflow: 'hidden',
+            }}
+          >
+            {content}
+          </WindowContent>
+        </Window>
+      </Rnd>
     );
   }
 }
@@ -57,11 +81,17 @@ class WindowFrame extends React.Component {
 WindowFrame.propTypes = {
   header: PropTypes.node,
   content: PropTypes.node,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  enableResizing: PropTypes.bool,
 };
 
 WindowFrame.defaultProps = {
   header: (<span>APPLICATION</span>),
   content: (<div>_BLANK</div>),
+  width: 'auto',
+  height: 'auto',
+  enableResizing: true,
 };
 
 export default WindowFrame;

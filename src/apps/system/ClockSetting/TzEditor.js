@@ -6,10 +6,13 @@ import {
 } from 'react95';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import './index.scss';
 
-import { setStorage } from '../../../utils/index';
+import { setStorage, getStorage } from '../../../utils/index';
 
 import allTimezones from './timezones.json';
+
+const CLOCK_TIMEZONES = 'CLOCK_TIMEZONES';
 
 class TzEditor extends React.Component {
   constructor(props) {
@@ -22,14 +25,17 @@ class TzEditor extends React.Component {
     this.state = {
       timezones: mappedTimezones,
       curHighlightTz: mappedTimezones[0].value,
-      selectedTz: [],
+      selectedTz: getStorage(CLOCK_TIMEZONES),
     };
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState(({ selectedTz }) => ({
-      selectedTz: arrayMove(selectedTz, oldIndex, newIndex),
-    }));
+    const { selectedTz } = this.state;
+    const newTz = arrayMove(selectedTz, oldIndex, newIndex);
+    this.setState({
+      selectedTz: newTz,
+    });
+    setStorage(CLOCK_TIMEZONES, newTz);
   }
 
   onSelectChange = (value) => {
@@ -41,7 +47,7 @@ class TzEditor extends React.Component {
   submitAddTz = () => {
     const { curHighlightTz, selectedTz } = this.state;
     const newSelectedTz = [...new Set([...selectedTz, curHighlightTz])];
-    setStorage('CLOCK_TIMEZONES', newSelectedTz);
+    setStorage(CLOCK_TIMEZONES, newSelectedTz);
     this.setState({
       selectedTz: newSelectedTz,
     });
@@ -60,10 +66,12 @@ class TzEditor extends React.Component {
       </ul>
     ));
     return (
-      <div>
+      <div className="tz-editor">
         <Fieldset label="ADD A TIMEZONE">
-          <Select items={timezones} onChange={this.onSelectChange} height={400} width={400} />
-          <Button onClick={this.submitAddTz}>ADD</Button>
+          <div className="tz-add">
+            <Select items={timezones} onChange={this.onSelectChange} height="100px" width="400px" />
+            <Button onClick={this.submitAddTz}>ADD</Button>
+          </div>
         </Fieldset>
         <Fieldset label="SELECTED TIMEZONE">
           <SortableList items={selectedTz} onSortEnd={this.onSortEnd} />

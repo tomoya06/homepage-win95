@@ -1,10 +1,14 @@
 import React from 'react';
-import { observable, autorun } from 'mobx';
+import { observable, autorun, computed } from 'mobx';
 
 class SystemStore {
   appid = 0
 
   @observable runningApps = []
+
+  @computed get runningAppNames() {
+    return this.runningApps.map((app) => app.appName);
+  }
 
   constructor() {
     autorun(() => console.log('system'));
@@ -16,6 +20,9 @@ class SystemStore {
       const appName = app.type.name;
       if (!appName) {
         throw new Error('NO APPNAME ASSIGNED.');
+      }
+      if (this.runningAppNames.includes(appName)) {
+        throw new Error('APP HAS BEEN LAUNCHED');
       }
       this.appid += 1;
       this.runningApps.push({

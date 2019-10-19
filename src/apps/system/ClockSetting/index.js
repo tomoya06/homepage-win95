@@ -15,7 +15,7 @@ class ClockSetting extends React.Component {
     const header = (<span>Clock Setting</span>);
     const content = (<TzEditor />);
     return (
-      <WindowFrame header={header} content={content} />
+      <WindowFrame header={header} content={content} enableResizing={false} />
     );
   }
 }
