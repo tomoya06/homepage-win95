@@ -12,15 +12,26 @@ class DockApp extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  handleClick(e) {
-    const { open } = this.state;
-    this.setState({
-      open: !open,
-    });
+  handleClick() {
+    const { popover } = this.props;
+    if (popover) {
+      const { open } = this.state;
+      this.setState({
+        open: !open,
+      });
+    }
 
-    e.preventDefault();
+    const { onClick } = this.props;
+    onClick();
+  }
+
+  handleClose() {
+    this.setState({
+      open: false,
+    });
   }
 
   handleBlur() {
@@ -28,15 +39,14 @@ class DockApp extends React.Component {
     if (!closeOnBlur) {
       return;
     }
-    this.setState({
-      open: false,
-    });
+    this.handleClose();
   }
 
   render() {
     const { open } = this.state;
     const {
       trigger, popover, horizontalAlign, verticalAlign,
+      variant,
     } = this.props;
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -48,7 +58,12 @@ class DockApp extends React.Component {
             {popover}
           </List>
         )}
-        <Button onBlurCapture={this.handleBlur} onClick={this.handleClick} active={open}>
+        <Button
+          onBlurCapture={this.handleBlur}
+          onClick={this.handleClick}
+          active={open}
+          variant={variant}
+        >
           {trigger}
         </Button>
       </div>
@@ -62,6 +77,8 @@ DockApp.propTypes = {
   closeOnBlur: PropTypes.bool,
   horizontalAlign: PropTypes.string,
   verticalAlign: PropTypes.string,
+  onClick: PropTypes.func,
+  variant: PropTypes.string,
 };
 
 DockApp.defaultProps = {
@@ -70,6 +87,8 @@ DockApp.defaultProps = {
   trigger: (<span> </span>),
   horizontalAlign: 'right',
   verticalAlign: 'top',
+  onClick: () => {},
+  variant: 'menu',
 };
 
 export default DockApp;

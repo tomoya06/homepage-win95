@@ -1,9 +1,9 @@
 import React from 'react';
-import DockApp from '../../layouts/DockApp';
+import DockApp from '../../../layouts/DockApp';
 
 import StartMenuPopover from './StartMenuPopover';
 
-import './StartMenu.scss';
+import './index.scss';
 
 class StartMenu extends React.Component {
   constructor(props) {
@@ -17,7 +17,13 @@ class StartMenu extends React.Component {
     );
     const popover = (<StartMenuPopover />);
     return (
-      <DockApp trigger={trigger} popover={popover} horizontalAlign="left" closeOnBlur={false} />
+      <DockApp
+        trigger={trigger}
+        popover={popover}
+        horizontalAlign="left"
+        closeOnBlur={false}
+        variant="default"
+      />
     );
   }
 }

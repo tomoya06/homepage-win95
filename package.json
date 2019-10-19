@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
+    "react": "^16.10.2",
+    "react-clock": "^2.4.0",
+    "react-dom": "^16.10.2",
+    "react-icons": "^3.7.0",
+    "react-scripts": "3.2.0",
     "react95": "^2.0.0",
     "styled-components": "^4.4.0"
   },

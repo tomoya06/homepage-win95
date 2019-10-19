@@ -3,8 +3,9 @@ import {
   AppBar, Toolbar,
 } from 'react95';
 
-import ClockApp from '../apps/system/Clock';
 import StartMenu from '../apps/system/StartMenu';
+import ClockApp from '../apps/system/Clock';
+import FullScreenToggle from '../apps/system/FullScreenToggle';
 
 export default class SystemBar extends React.Component {
   constructor(props) {
@@ -16,12 +17,14 @@ export default class SystemBar extends React.Component {
   render() {
     return (
       <AppBar style={{ top: 'auto', bottom: 0 }}>
-        <Toolbar style={{ justifyContent: 'space-between' }}>
-          <div>
+        <Toolbar>
+          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-begin' }}>
             <StartMenu />
           </div>
-          <div>
+          <div style={{ display: 'flex' }}>
+            <FullScreenToggle />
             <ClockApp />
+            <div />
           </div>
         </Toolbar>
       </AppBar>
