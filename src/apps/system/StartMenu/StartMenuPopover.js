@@ -1,35 +1,24 @@
 import React from 'react';
 import { ListItem, Divider } from 'react95';
+import { CATALOG, REGISTRY } from '../../registry';
 
 class StartMenuPopover extends React.Component {
   constructor(props) {
     super(props);
+    const mainList = Object.keys(CATALOG).map((cat, index) => ({
+      name: CATALOG[`${cat}`],
+      active: index === 0,
+      children: REGISTRY.filter((reg) => reg.catalog === CATALOG[`${cat}`])
+        .map((app) => ({
+          ...app,
+        })),
+    }));
     this.state = {
-      mainList: [
-        {
-          name: 'Applications',
-          active: true,
-          children: [
-            {
-              name: 'Clock',
-            },
-          ],
-        },
-        {
-          name: 'Settings',
-          children: [],
-        },
-        {
-          name: 'About',
-          children: [],
-        },
-      ],
+      mainList,
     };
-
-    this.handleClickMainlistItem = this.handleClickMainlistItem.bind(this);
   }
 
-  handleClickMainlistItem(idx) {
+  handleClickMainlistItem = (idx) => {
     const { mainList } = this.state;
     const newMainList = mainList.map((item, index) => ({
       ...item,
@@ -38,6 +27,10 @@ class StartMenuPopover extends React.Component {
     this.setState({
       mainList: newMainList,
     });
+  }
+
+  handleClickApplication = (app) => {
+    window.launchApp(app.id);
   }
 
   render() {
@@ -58,7 +51,7 @@ class StartMenuPopover extends React.Component {
         <Divider vertical size="sm" style={{ height: '100%' }} />
         <div className="panel right">
           {sideList.map((item) => (
-            <ListItem>{item.name}</ListItem>
+            <ListItem onClick={() => this.handleClickApplication(item)}>{item.name}</ListItem>
           ))}
         </div>
       </div>

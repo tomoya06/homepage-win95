@@ -12,5 +12,6 @@ export const REGISTRY = [
     id: 'system.clocksetting',
     app: ClockSetting,
     catalog: CATALOG.SETTING,
+    name: 'Clock',
   },
 ];
