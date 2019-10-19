@@ -2,7 +2,11 @@ import React from 'react';
 import ReactClock from 'react-clock';
 import { Button } from 'react95';
 import moment from 'moment';
+
 import DockApp from '../../../layouts/DockApp';
+import ClockSettingApp from '../ClockSetting';
+
+import SystemStore from '../../../stores/System';
 
 import './index.scss';
 
@@ -16,10 +20,6 @@ class Clock extends React.Component {
     this.timeout = null;
 
     this.dockAppRef = React.createRef();
-
-    this.updateCurrentTime = this.updateCurrentTime.bind(this);
-    this.handleClickClose = this.handleClickClose.bind(this);
-    this.handleClickSetting = this.handleClickSetting.bind(this);
   }
 
   componentDidMount() {
@@ -28,23 +28,21 @@ class Clock extends React.Component {
     }, 1000);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     clearInterval(this.timeout);
   }
 
-  updateCurrentTime() {
+  updateCurrentTime = () => {
     this.setState({
       currentTime: moment(),
     });
   }
 
-  handleClickSetting() {
-    // TODO: LAUNCH APP WITH REDUX
-    const { timeFormat } = this.state;
-    console.log(`opening clock setting app ${timeFormat}`);
+  handleClickSetting = () => {
+    SystemStore.launchApp(ClockSettingApp);
   }
 
-  handleClickClose() {
+  handleClickClose = () => {
     this.dockAppRef.current.handleClose();
   }
 

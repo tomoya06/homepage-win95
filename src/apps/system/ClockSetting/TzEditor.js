@@ -21,30 +21,30 @@ class TzEditor extends React.Component {
 
     this.state = {
       timezones: mappedTimezones,
-      curHighlightTz: allTimezones[0].value,
+      curHighlightTz: mappedTimezones[0].value,
       selectedTz: [],
     };
-    this.onSortEnd = this.onSortEnd.bind(this);
-    this.onSelectChange = this.onSelectChange.bind(this);
-    this.submitAddTz = this.submitAddTz.bind(this);
   }
 
-  onSortEnd({ oldIndex, newIndex }) {
+  onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState(({ selectedTz }) => ({
       selectedTz: arrayMove(selectedTz, oldIndex, newIndex),
     }));
   }
 
-  onSelectChange(value) {
+  onSelectChange = (value) => {
     this.setState({
       curHighlightTz: value,
     });
   }
 
-  submitAddTz() {
+  submitAddTz = () => {
     const { curHighlightTz, selectedTz } = this.state;
-    const newSelectedTz = [selectedTz, curHighlightTz];
+    const newSelectedTz = [...new Set([...selectedTz, curHighlightTz])];
     setStorage('CLOCK_TIMEZONES', newSelectedTz);
+    this.setState({
+      selectedTz: newSelectedTz,
+    });
   }
 
   render() {
@@ -62,7 +62,7 @@ class TzEditor extends React.Component {
     return (
       <div>
         <Fieldset label="ADD A TIMEZONE">
-          <Select items={timezones} height={400} width={400} />
+          <Select items={timezones} onChange={this.onSelectChange} height={400} width={400} />
           <Button onClick={this.submitAddTz}>ADD</Button>
         </Fieldset>
         <Fieldset label="SELECTED TIMEZONE">

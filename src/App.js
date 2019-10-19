@@ -4,6 +4,8 @@ import { reset, themes } from 'react95';
 
 import System from './views/System/index';
 
+import SystemStore from './stores/System';
+
 import './App.css';
 
 const ResetStyles = createGlobalStyle`
@@ -15,7 +17,7 @@ function App() {
     <div className="App">
       <ResetStyles />
       <ThemeProvider theme={themes.default}>
-        <System />
+        <System store={SystemStore} />
       </ThemeProvider>
     </div>
   );

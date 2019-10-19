@@ -12,7 +12,8 @@ module.exports = {
     },
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            "experimentalDecorators": true,
         },
         "ecmaVersion": 2018,
         "sourceType": "module"
@@ -20,6 +21,7 @@ module.exports = {
     "plugins": [
         "react"
     ],
+    "parser": "babel-eslint",
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         'linebreak-style': 'off',

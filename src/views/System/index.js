@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 
 import SystemBar from '../../layouts/SystemBar';
 
 import './index.scss';
 
+@observer
 class System extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-
-    };
-  }
-
   render() {
-    const { children } = this.props;
+    const { store } = this.props;
+    const { runningApps } = store;
     return (
       <div className="system-view">
         <div className="desktop">
-          {children}
+          {runningApps.map(({ app }) => app)}
         </div>
         <div className="dock">
           <SystemBar />
@@ -30,7 +25,15 @@ class System extends Component {
 }
 
 System.propTypes = {
-  children: PropTypes.node.isRequired,
+  store: PropTypes.shape({
+    runningApps: PropTypes.array,
+  }),
+};
+
+System.defaultProps = {
+  store: {
+    runningApps: [],
+  },
 };
 
 export default System;
