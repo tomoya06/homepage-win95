@@ -5,7 +5,6 @@ import {
 } from 'react95';
 import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
-import SystemStore from '../stores/System';
 
 class WindowFrame extends React.Component {
   parentClassname = null
@@ -21,7 +20,8 @@ class WindowFrame extends React.Component {
   }
 
   handleCloseApp = () => {
-    SystemStore.killApp(this.parentClassname);
+    const { appid } = this.props;
+    window.terminateApp(appid);
   }
 
   getParentClassName = () => this._reactInternalFiber._debugOwner.type.name
@@ -79,6 +79,7 @@ class WindowFrame extends React.Component {
 }
 
 WindowFrame.propTypes = {
+  appid: PropTypes.string.isRequired,
   header: PropTypes.node,
   content: PropTypes.node,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

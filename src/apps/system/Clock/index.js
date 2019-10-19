@@ -4,9 +4,6 @@ import { Button } from 'react95';
 import moment from 'moment';
 
 import DockApp from '../../../layouts/DockApp';
-import ClockSettingApp from '../ClockSetting';
-
-import SystemStore from '../../../stores/System';
 
 import './index.scss';
 
@@ -39,7 +36,7 @@ class Clock extends React.Component {
   }
 
   handleClickSetting = () => {
-    SystemStore.launchApp(ClockSettingApp);
+    window.launchApp('system.clocksetting');
   }
 
   handleClickClose = () => {
