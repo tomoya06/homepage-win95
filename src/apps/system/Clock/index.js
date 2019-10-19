@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactClock from 'react-clock';
+import { Button } from 'react95';
 import moment from 'moment';
 import DockApp from '../../../layouts/DockApp';
 
@@ -14,7 +15,11 @@ class Clock extends React.Component {
     };
     this.timeout = null;
 
+    this.dockAppRef = React.createRef();
+
     this.updateCurrentTime = this.updateCurrentTime.bind(this);
+    this.handleClickClose = this.handleClickClose.bind(this);
+    this.handleClickSetting = this.handleClickSetting.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +38,16 @@ class Clock extends React.Component {
     });
   }
 
+  handleClickSetting() {
+    // TODO: LAUNCH APP WITH REDUX
+    const { timeFormat } = this.state;
+    console.log(`opening clock setting app ${timeFormat}`);
+  }
+
+  handleClickClose() {
+    this.dockAppRef.current.handleClose();
+  }
+
   render() {
     const { currentTime, timeFormat } = this.state;
     const trigger = (
@@ -41,7 +56,14 @@ class Clock extends React.Component {
     const popover = (
       <div className="clock-popover">
         <div className="clock-display">
-          <ReactClock value={currentTime.toDate()} />
+          <div className="one-clock">
+            <ReactClock value={currentTime.toDate()} />
+            <div>LOCAL TIME</div>
+          </div>
+        </div>
+        <div className="panel">
+          <Button onClick={this.handleClickSetting} variant="menu">SETTING</Button>
+          <Button onClick={this.handleClickClose} variant="menu">X</Button>
         </div>
       </div>
     );
@@ -50,6 +72,7 @@ class Clock extends React.Component {
         trigger={trigger}
         popover={popover}
         closeOnBlur={false}
+        ref={this.dockAppRef}
       />
     );
   }
