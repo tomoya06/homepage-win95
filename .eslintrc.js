@@ -25,6 +25,6 @@ module.exports = {
         'linebreak-style': 'off',
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-        'no-underscore-dangle': 'off',
+        'no-underscore-dangle': 'off'
     }
 };

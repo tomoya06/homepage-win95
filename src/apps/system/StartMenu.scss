@@ -1,0 +1,14 @@
+.startmenu {
+  display: flex;
+  width: 300px;
+  height: 400px;
+
+  .panel {
+    &.left {
+      width: 40%;
+    }
+    &.right {
+      flex-grow: 1;
+    }
+  }
+}

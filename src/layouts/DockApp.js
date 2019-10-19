@@ -14,13 +14,20 @@ class DockApp extends React.Component {
     this.handleBlur = this.handleBlur.bind(this);
   }
 
-  handleClick() {
+  handleClick(e) {
+    const { open } = this.state;
     this.setState({
-      open: true,
+      open: !open,
     });
+
+    e.preventDefault();
   }
 
   handleBlur() {
+    const { closeOnBlur } = this.props;
+    if (!closeOnBlur) {
+      return;
+    }
     this.setState({
       open: false,
     });
@@ -28,11 +35,16 @@ class DockApp extends React.Component {
 
   render() {
     const { open } = this.state;
-    const { trigger, popover } = this.props;
+    const {
+      trigger, popover, horizontalAlign, verticalAlign,
+    } = this.props;
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
-        {open && (
-          <List horizontalAlign="right" verticalAlign="top" open={open}>
+        {(open && popover) && (
+          <List
+            horizontalAlign={horizontalAlign}
+            verticalAlign={verticalAlign}
+          >
             {popover}
           </List>
         )}
@@ -45,8 +57,19 @@ class DockApp extends React.Component {
 }
 
 DockApp.propTypes = {
-  trigger: PropTypes.node.isRequired,
-  popover: PropTypes.node.isRequired,
+  trigger: PropTypes.node,
+  popover: PropTypes.node,
+  closeOnBlur: PropTypes.bool,
+  horizontalAlign: PropTypes.string,
+  verticalAlign: PropTypes.string,
+};
+
+DockApp.defaultProps = {
+  popover: null,
+  closeOnBlur: true,
+  trigger: (<span> </span>),
+  horizontalAlign: 'right',
+  verticalAlign: 'top',
 };
 
 export default DockApp;
