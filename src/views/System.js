@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SystemBar from '../layouts/SystemBar';
 
-import '../styles/System.less';
+import './System.less';
 
 class System extends Component {
   constructor(props) {
