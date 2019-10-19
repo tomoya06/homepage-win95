@@ -3,7 +3,7 @@ import ReactClock from 'react-clock';
 import moment from 'moment';
 import DockApp from '../../../layouts/DockApp';
 
-import './clock.scss';
+import './index.scss';
 
 class Clock extends React.Component {
   constructor(props) {

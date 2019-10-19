@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import SystemBar from '../layouts/SystemBar';
+import SystemBar from '../../layouts/SystemBar';
 
-import './System.scss';
+import './index.scss';
 
 class System extends Component {
   constructor(props) {

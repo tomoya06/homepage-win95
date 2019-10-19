@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  AppBar, Toolbar,
+  AppBar, Toolbar, Divider,
 } from 'react95';
 
 import StartMenu from '../apps/system/StartMenu';
@@ -18,10 +18,12 @@ export default class SystemBar extends React.Component {
     return (
       <AppBar style={{ top: 'auto', bottom: 0 }}>
         <Toolbar>
-          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-begin' }}>
+          <div>
             <StartMenu />
           </div>
+          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-begin' }} />
           <div style={{ display: 'flex' }}>
+            <Divider vertical style={{ margin: '6px 0', height: 'auto' }} />
             <FullScreenToggle />
             <ClockApp />
             <div />
