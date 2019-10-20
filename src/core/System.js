@@ -9,8 +9,8 @@ export class SystemStore {
 
   @observable runningApps = []
 
-  @computed get runningAppNames() {
-    return this.runningApps.map((app) => app.appName);
+  @computed get runningAppids() {
+    return this.runningApps.map((app) => app.id);
   }
 
   constructor() {
@@ -19,12 +19,12 @@ export class SystemStore {
 
   launchApp(newApp) {
     const appid = newApp.id;
-    if (this.runningAppNames.includes(appid)) return -1;
+    if (this.runningAppids.includes(appid)) return -1;
 
     this.appid += 1;
     const App = newApp.app;
     const theApp = <App key={this.appid} />;
-    const defaultDisplayName = theApp.type.name;
+    const defaultDisplayName = newApp.name || 'UNKNOWN APP';
     this.runningApps.push({
       id: appid,
       displayName: defaultDisplayName,
@@ -45,7 +45,6 @@ export class SystemStore {
   }
 
   terminateApp(appid) {
-    console.log(`CLOSE APP ${appid} ${this.runningApps.length}`);
     this.runningApps = this.runningApps.filter((app) => app.id !== appid);
   }
 
@@ -59,7 +58,7 @@ const systemStore = new SystemStore();
 systemEvt.on('launch', (appid) => {
   const targetApp = REGISTRY.find((app) => app.id.split('#')[0] === appid);
   if (!targetApp) return;
-  systemStore.launchApp(targetApp);
+  console.log(systemStore.launchApp(targetApp));
 });
 
 systemEvt.on('terminate', (appid) => {
