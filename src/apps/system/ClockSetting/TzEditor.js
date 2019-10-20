@@ -8,60 +8,87 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import './index.scss';
 
-import { setStorage, getStorage } from '../../../utils/index';
+import { triggerTimezoneListUpdate, getTimezoneList, updateTimezoneList } from '../Clock/eventBus';
 
 import allTimezones from './timezones.json';
 
-const CLOCK_TIMEZONES = 'CLOCK_TIMEZONES';
+const mappedTimezones = allTimezones.map((key) => ({
+  label: key,
+  value: key,
+  lag: parseInt(key.replace(/^\(GMT([-+]\d{2}).*$/, '$1'), 10),
+}));
+
+const currentTimezoneIdx = mappedTimezones.findIndex((zone) => zone.value === '(GMT+08:00) Asia/Taipei');
+
+const MAX_TIMEZONE_COUNT = 5;
 
 class TzEditor extends React.Component {
   constructor(props) {
     super(props);
-    const mappedTimezones = Object.keys(allTimezones).map((key) => ({
-      label: key,
-      value: allTimezones[`${key}`],
-    }));
 
     this.state = {
-      timezones: mappedTimezones,
-      curHighlightTz: mappedTimezones[0].value,
-      selectedTz: getStorage(CLOCK_TIMEZONES),
+      timezoneSelections: mappedTimezones,
+      selectedTimezone: mappedTimezones[currentTimezoneIdx].value,
+      timezoneList: getTimezoneList() || [],
     };
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const { selectedTz } = this.state;
-    const newTz = arrayMove(selectedTz, oldIndex, newIndex);
-    this.setState({
-      selectedTz: newTz,
-    });
-    setStorage(CLOCK_TIMEZONES, newTz);
+    const { timezoneList } = this.state;
+    const newTimezone = arrayMove(timezoneList, oldIndex, newIndex);
+    updateTimezoneList(newTimezone);
+    triggerTimezoneListUpdate();
   }
 
   onSelectChange = (value) => {
     this.setState({
-      curHighlightTz: value,
+      selectedTimezone: value,
     });
   }
 
   submitAddTz = () => {
-    const { curHighlightTz, selectedTz } = this.state;
-    const newSelectedTz = [...new Set([...selectedTz, curHighlightTz])];
-    setStorage(CLOCK_TIMEZONES, newSelectedTz);
+    const { timezoneSelections, selectedTimezone, timezoneList } = this.state;
+    const newTimezone = timezoneSelections.find((zone) => zone.value === selectedTimezone);
+    const newTimezoneList = [...timezoneList, newTimezone];
+    updateTimezoneList(newTimezoneList);
     this.setState({
-      selectedTz: newSelectedTz,
+      timezoneList: newTimezoneList,
     });
+    triggerTimezoneListUpdate();
+  }
+
+  handleDelete = (value) => {
+    const { timezoneList } = this.state;
+    const index = timezoneList.findIndex((zone) => zone.value === value);
+    timezoneList.splice(index, 1);
+    updateTimezoneList(timezoneList);
+    this.setState({
+      timezoneList,
+    });
+    triggerTimezoneListUpdate();
   }
 
   render() {
-    const { timezones, selectedTz } = this.state;
+    const { timezoneSelections, timezoneList } = this.state;
     const SortableItem = SortableElement(({ value }) => (
-      <ListItem>{value}</ListItem>
+      <ListItem key={value.label}>
+        <div className="timezone-list-item">
+          <div className="label">{value.label}</div>
+          <Button
+            onClick={() => this.handleDelete(value.value)}
+            style={{ marginRight: '-6px', marginTop: '1px' }}
+            size="sm"
+            square
+          >
+            <span style={{ fontWeight: 'bold', transform: 'translateY(-1px)' }}>X</span>
+          </Button>
+        </div>
+      </ListItem>
     ));
     const SortableList = SortableContainer(({ items }) => (
       <ul>
-        {items.map((value, index) => (
-          <SortableItem key={`item-${value}`} index={index} value={value} />
+        {items && items.map((value, index) => (
+          <SortableItem key={`item-${value.value}`} index={index} value={value} />
         ))}
       </ul>
     ));
@@ -69,12 +96,23 @@ class TzEditor extends React.Component {
       <div className="tz-editor">
         <Fieldset label="ADD A TIMEZONE">
           <div className="tz-add">
-            <Select items={timezones} onChange={this.onSelectChange} height="100px" width="400px" />
-            <Button onClick={this.submitAddTz}>ADD</Button>
+            <Select
+              selectedIndex={currentTimezoneIdx}
+              items={timezoneSelections}
+              onChange={this.onSelectChange}
+              height="100px"
+              width="400px"
+            />
+            <Button
+              onClick={this.submitAddTz}
+              disabled={timezoneList.length >= MAX_TIMEZONE_COUNT}
+            >
+              <span>ADD</span>
+            </Button>
           </div>
         </Fieldset>
         <Fieldset label="SELECTED TIMEZONE">
-          <SortableList items={selectedTz} onSortEnd={this.onSortEnd} />
+          <SortableList items={timezoneList} onSortEnd={this.onSortEnd} distance={2} />
         </Fieldset>
       </div>
     );

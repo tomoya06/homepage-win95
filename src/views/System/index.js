@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import SystemBar from '../../layouts/SystemBar';
+import SystemBar from '../../layouts/SystemBar/index';
 
 import './index.scss';
 
@@ -17,7 +17,7 @@ class System extends Component {
           {runningApps.map(({ app }) => app)}
         </div>
         <div className="dock">
-          <SystemBar />
+          <SystemBar store={store} />
         </div>
       </div>
     );

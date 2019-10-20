@@ -4,7 +4,7 @@ import { observable, autorun, computed } from 'mobx';
 import systemEvt from './SystemEventBus';
 import { REGISTRY } from '../apps/registry';
 
-class SystemStore {
+export class SystemStore {
   appid = 0
 
   @observable runningApps = []
@@ -30,8 +30,18 @@ class SystemStore {
       displayName: defaultDisplayName,
       app: theApp,
       pid: this.appid,
+      isActive: true,
     });
+
+    this.activateApp(appid);
+
     return this.appid;
+  }
+
+  activateApp(appid) {
+    for (let i = 0; i < this.runningApps.length; i += 1) {
+      this.runningApps[i].isActive = appid === this.runningApps[i].id;
+    }
   }
 
   terminateApp(appid) {

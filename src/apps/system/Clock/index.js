@@ -5,6 +5,11 @@ import moment from 'moment';
 
 import DockApp from '../../../layouts/DockApp';
 
+import {
+  bindTimezoneListUpdateHandler, unbindTimezoneListUpdateHandler,
+  getTimezoneList,
+} from './eventBus';
+
 import './index.scss';
 
 class Clock extends React.Component {
@@ -13,6 +18,7 @@ class Clock extends React.Component {
     this.state = {
       timeFormat: 'HH:mm:ss',
       currentTime: moment(),
+      timezoneList: getTimezoneList() || [],
     };
     this.timeout = null;
 
@@ -22,16 +28,26 @@ class Clock extends React.Component {
   componentDidMount() {
     this.timeout = setInterval(() => {
       this.updateCurrentTime();
-    }, 1000);
+    }, 10);
+
+    bindTimezoneListUpdateHandler(this.updateTimezoneList);
   }
 
   componentWillUnmount = () => {
     clearInterval(this.timeout);
+    unbindTimezoneListUpdateHandler(this.updateTimezoneList);
   }
 
   updateCurrentTime = () => {
     this.setState({
       currentTime: moment(),
+    });
+  }
+
+  updateTimezoneList = () => {
+    const timezoneList = getTimezoneList();
+    this.setState({
+      timezoneList,
     });
   }
 
@@ -44,7 +60,7 @@ class Clock extends React.Component {
   }
 
   render() {
-    const { currentTime, timeFormat } = this.state;
+    const { currentTime, timeFormat, timezoneList } = this.state;
     const trigger = (
       <span>{currentTime.format(timeFormat)}</span>
     );
@@ -55,6 +71,14 @@ class Clock extends React.Component {
             <ReactClock value={currentTime.toDate()} />
             <div>LOCAL TIME</div>
           </div>
+          {
+            timezoneList.map(({ lag, label }) => (
+              <div className="one-clock">
+                <ReactClock value={currentTime.add(lag, 'h').toDate()} />
+                <div>{label}</div>
+              </div>
+            ))
+          }
         </div>
         <div className="panel">
           <Button onClick={this.handleClickSetting} variant="menu">SETTING</Button>

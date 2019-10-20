@@ -1,8 +1,7 @@
 import ClockSetting from './system/ClockSetting';
 
 export const CATALOG = {
-  APP: 'APPLICATION',
-  IFRAME: 'SITES',
+  APP: 'APPS',
   SETTING: 'SETTINGS',
   ABOUT: 'ABOUT',
 };
