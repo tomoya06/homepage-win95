@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d920c1706f09cd1b915c7056335c9e4d",
+    "revision": "fe9c0fdd5b7ba5c74fa2b896bb4797e3",
     "url": "/homepage-win95/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/homepage-win95/static/css/2.1b53b9c3.chunk.css"
   },
   {
-    "revision": "e360ab9fcc59125eb53c",
+    "revision": "4cc1797ac270fa0ac3aa",
     "url": "/homepage-win95/static/css/main.75dd32fa.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/homepage-win95/static/js/2.6e87a835.chunk.js"
   },
   {
-    "revision": "e360ab9fcc59125eb53c",
-    "url": "/homepage-win95/static/js/main.a921aec0.chunk.js"
+    "revision": "4cc1797ac270fa0ac3aa",
+    "url": "/homepage-win95/static/js/main.ddf4ffa9.chunk.js"
   },
   {
     "revision": "4dbd135f874d22b04ef0",
