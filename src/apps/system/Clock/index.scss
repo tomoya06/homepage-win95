@@ -2,7 +2,12 @@
   .clock-display {
     display: flex;
     .one-clock {
+      margin: 6px 6px;
       text-align: center;
+
+      .desc {
+        padding: 6px 0 0 0;
+      }
     }
   }
   .panel {

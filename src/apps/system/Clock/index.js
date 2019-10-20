@@ -69,20 +69,20 @@ class Clock extends React.Component {
         <div className="clock-display">
           <div className="one-clock">
             <ReactClock value={currentTime.toDate()} />
-            <div>LOCAL TIME</div>
+            <div className="desc">LOCAL TIME</div>
           </div>
           {
             timezoneList.map(({ lag, label }) => (
               <div className="one-clock">
                 <ReactClock value={currentTime.add(lag, 'h').toDate()} />
-                <div>{label}</div>
+                <div className="desc">{label.split(' ').join('\n')}</div>
               </div>
             ))
           }
         </div>
         <div className="panel">
-          <Button onClick={this.handleClickSetting} variant="menu">SETTING</Button>
-          <Button onClick={this.handleClickClose} variant="menu">X</Button>
+          <Button onClick={this.handleClickSetting}>SETTING</Button>
+          <Button onClick={this.handleClickClose}>X</Button>
         </div>
       </div>
     );
