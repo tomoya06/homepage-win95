@@ -7,24 +7,16 @@ import { Rnd } from 'react-rnd';
 import PropTypes from 'prop-types';
 
 class WindowFrame extends React.Component {
-  parentClassname = null
-
   constructor(props) {
     super(props);
     this.state = {
     };
   }
 
-  componentDidMount() {
-    this.parentClassname = this.getParentClassName();
-  }
-
   handleCloseApp = () => {
     const { appid } = this.props;
     window.terminateApp(appid);
   }
-
-  getParentClassName = () => this._reactInternalFiber._debugOwner.type.name
 
   render() {
     const {
