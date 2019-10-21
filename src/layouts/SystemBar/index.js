@@ -35,6 +35,7 @@ class SystemBar extends React.Component {
           <div className="running-apps">
             {store.runningApps.map((app) => (
               <Button
+                key={`runningapp-${app.id}`}
                 className="app-docker"
                 onClick={() => this.handleClick(app.id)}
                 active={app.isActive}

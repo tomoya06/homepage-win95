@@ -1,4 +1,5 @@
 import ClockSetting from './system/ClockSetting';
+import IE from './system/Ie/index';
 
 export const CATALOG = {
   APP: 'APPS',
@@ -12,5 +13,11 @@ export const REGISTRY = [
     app: ClockSetting,
     catalog: CATALOG.SETTING,
     name: 'Clock Setting',
+  },
+  {
+    id: 'system.ie',
+    app: IE,
+    catalog: CATALOG.APP,
+    name: 'IE',
   },
 ];

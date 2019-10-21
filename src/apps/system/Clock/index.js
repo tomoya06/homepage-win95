@@ -73,7 +73,10 @@ class Clock extends React.Component {
           </div>
           {
             timezoneList.map(({ lag, label }) => (
-              <div className="one-clock">
+              <div
+                key={`display-clock-${label}`}
+                className="one-clock"
+              >
                 <ReactClock value={currentTime.add(lag, 'h').toDate()} />
                 <div className="desc">{label.split(' ').join('\n')}</div>
               </div>

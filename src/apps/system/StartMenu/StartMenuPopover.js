@@ -41,6 +41,7 @@ class StartMenuPopover extends React.Component {
         <div className="panel left">
           {mainList.map((item, index) => (
             <ListItem
+              key={`main-${item.name}`}
               onClick={() => this.handleClickMainlistItem(index)}
               style={{ textDecoration: item.active ? 'underline' : 'none' }}
             >
@@ -51,7 +52,12 @@ class StartMenuPopover extends React.Component {
         <Divider vertical size="sm" style={{ height: '100%' }} />
         <div className="panel right">
           {sideList.map((item) => (
-            <ListItem onClick={() => this.handleClickApplication(item)}>{item.name}</ListItem>
+            <ListItem
+              key={`side-${item.name}`}
+              onClick={() => this.handleClickApplication(item)}
+            >
+              {item.name}
+            </ListItem>
           ))}
         </div>
       </div>
