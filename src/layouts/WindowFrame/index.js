@@ -21,6 +21,7 @@ class WindowFrame extends React.Component {
   render() {
     const {
       header, content, width, height, enableResizing,
+      contentClassName,
     } = this.props;
     return (
       <Rnd
@@ -30,17 +31,19 @@ class WindowFrame extends React.Component {
           width,
           height,
         }}
-        dragHandleClassName="header"
+        dragHandleClassName="window--header"
         enableResizing={enableResizing}
       >
         <Window
           style={{
             width: '100%',
             height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <WindowHeader
-            className="header"
+            className="window--header"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -58,8 +61,10 @@ class WindowFrame extends React.Component {
             </Button>
           </WindowHeader>
           <WindowContent
+            className={contentClassName}
             style={{
               overflow: 'hidden',
+              flexGrow: 1,
             }}
           >
             {content}
@@ -74,6 +79,7 @@ WindowFrame.propTypes = {
   appid: PropTypes.string.isRequired,
   header: PropTypes.node,
   content: PropTypes.node,
+  contentClassName: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   enableResizing: PropTypes.bool,
@@ -82,6 +88,7 @@ WindowFrame.propTypes = {
 WindowFrame.defaultProps = {
   header: (<span>APPLICATION</span>),
   content: (<div>_BLANK</div>),
+  contentClassName: '',
   width: 'auto',
   height: 'auto',
   enableResizing: true,

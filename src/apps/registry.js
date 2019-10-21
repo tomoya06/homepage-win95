@@ -18,6 +18,6 @@ export const REGISTRY = [
     id: 'system.ie',
     app: IE,
     catalog: CATALOG.APP,
-    name: 'IE',
+    name: 'Internet Explorer',
   },
 ];
