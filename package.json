@@ -51,7 +51,7 @@
     "react": "^16.10.2",
     "react-app-polyfill": "^1.0.4",
     "react-clock": "^2.4.0",
-    "react-dev-utils": "^9.1.0",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.10.2",
     "react-icons": "^3.7.0",
     "react-rnd": "^10.1.1",
